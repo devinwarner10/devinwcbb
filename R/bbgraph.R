@@ -19,8 +19,11 @@ bbgraph <- function(data, team = NULL) {
   } else{
     data <- data %>% team_filter(team)
     
-    data %>% ggplot(aes(x = opponentscore, y = teamscore, color = result)) + 
-      geom_point(size = 5) + geom_abline() +
+    data %>% 
+      mutate("Result" = result) %>%
+      ggplot(aes(x = opponentscore, y = teamscore, color = Result)) + 
+      geom_point(size = 5) + 
+      geom_abline() +
       labs(y = paste(team, "Score"), x = "Opponent Score", title = paste(team, "Basketball Scores"))
   }
   
