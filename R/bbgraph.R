@@ -24,6 +24,7 @@ bbgraph <- function(data, team = NULL) {
       ggplot(aes(x = opponentscore, y = teamscore, color = Result)) + 
       geom_point(size = 5) + 
       geom_abline() +
+      guides(color = guide_legend(reverse = TRUE)) +
       labs(y = paste(team, "Score"), x = "Opponent Score", title = paste(team, "Basketball Scores"))
   }
   

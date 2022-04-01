@@ -4,7 +4,7 @@
 \alias{time_series_graph}
 \title{Creates a ggplot of Team and Opponent scores over time}
 \usage{
-time_series_graph(data, team)
+time_series_graph(data, team, smooth = 0)
 }
 \arguments{
 \item{data}{kenpom data set}

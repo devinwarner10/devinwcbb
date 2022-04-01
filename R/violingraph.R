@@ -22,6 +22,7 @@ violingraph <- function(data, team){
     geom_violin(fill = "mistyrose1", color = "black") +
     geom_jitter(aes(color = Result), width = 0.02) +
     geom_abline(y = 0, color = "red", fill = "red") +
+    guides(color = guide_legend(reverse = TRUE)) +
     labs(y = paste("Score Difference (",team, " - Opponent)"), 
          title = "Distribution of Score Differences")
 }

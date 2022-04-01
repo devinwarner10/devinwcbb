@@ -2,6 +2,7 @@
 
 export(all_teams_records)
 export(bbgraph)
+export(conf_list)
 export(get_cbb_data)
 export(run_cbb_shiny)
 export(team_filter)

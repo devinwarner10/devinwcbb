@@ -1,4 +1,5 @@
-data <- get_cbb_data()
+data <- get_cbb_data(0)
+conf_data <- get_cbb_data(1)
 
 ui <- fluidPage(
   
@@ -8,39 +9,42 @@ ui <- fluidPage(
   
     navbarPage("Menu",
       tabPanel("Individual Team Data",
-        sidebarLayout(
-          sidebarPanel(
-            selectInput('team', 'Teams', team_list(data), 
-                        selected = "Southern Utah"),
-            textOutput("text1")
+        
+          fluidRow(
+            wellPanel(
+              selectInput('team', 'Team', team_list(data), 
+                          selected = "Southern Utah"),
+              textOutput("text1")
+            )
           ),
           
-          mainPanel(
-            plotOutput("plot1"),
+          navbarPage("Graphs",
+              tabPanel("Scatter Plot",
+                       plotOutput("plot1")),
+              tabPanel("Violin Graph",
+                       plotOutput("plot2")),
+              tabPanel("Time Series",
+                       wellPanel(
+                         radioButtons("plotType", "Plot Type",
+                                      c("Line" = 0, "Smooth" = 1))
+                         ),
+                       plotOutput("plot3")),
+              tabPanel("Table",
+                       DTOutput("table1")),
           ),
-        ),
         
-        hr(),
-        
-        fluidRow(
-          column(8,
-            DTOutput("table1")
-          ),
-          column(4,
-            plotOutput("plot2")
-          )
-        ),
-        
-        hr(),
-        
-        fluidRow(
-          column(12,
-            plotOutput("plot3")
-          )
-        ),
-        
-        hr()
-        
+      ),
+      
+      tabPanel("Conference Data",
+               fluidRow(
+                 wellPanel(
+                   selectInput('conf', 'Conference', conf_list(conf_data), 
+                               selected = "Big Sky")
+                 )
+               ),
+               
+               DTOutput("table3")
+               
       ),
       
       tabPanel("All Team Data",
@@ -49,6 +53,7 @@ ui <- fluidPage(
               textOutput("text2")
             )
           ),
+          
           DTOutput("table2")
       )
     )
@@ -58,6 +63,8 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   team <- reactive({input$team})
+  smooth <- reactive({input$plotType})
+  conf <- reactive({input$conf})
   
   output$text1 <- renderPrint({
     team_win_record(data,team(),1)
@@ -76,7 +83,7 @@ server <- function(input, output, session) {
   })
   
   output$plot3 <- renderPlot({
-    time_series_graph(data, team())
+    time_series_graph(data, team(), smooth())
   })
   
   output$table1 <- renderDT(
@@ -94,6 +101,17 @@ server <- function(input, output, session) {
     options = list(pageLength = 10,
                    dom = 'ftp'),
     colnames = c("Rank","Team","Wins","Total Games", "Win Percentage"),
+    caption = "Rankings are based off a weighted win percentage: (# wins)^2 / (total games)"
+  )
+  
+  output$table3 <- renderDT(
+    conf_data %>%
+      filter(conference == conf()) %>%
+      all_teams_records() %>%
+      select(-weighted_wins),
+    options = list(pageLength = 15,
+                   dom = 'tp'),
+    colnames = c("Rank","Team","Conference Wins","Conference Games", "Conference Win Percentage"),
     caption = "Rankings are based off a weighted win percentage: (# wins)^2 / (total games)"
   )
 }

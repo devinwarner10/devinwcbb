@@ -4,7 +4,7 @@
 \alias{get_cbb_data}
 \title{Imports and cleans the KenPom college basketball data set}
 \usage{
-get_cbb_data()
+get_cbb_data(conf = 0)
 }
 \value{
 tibble
@@ -15,4 +15,6 @@ column types. Adds the column 'location' based on the home team. Adds the
 column 'score-diff' found by 'score_1' - 'score_2'. Removes columns 6 and 7.
 Changes the 'date' column from a string to a date. Returns the cleaned dataset.
 Requires the tidyverse and lubridate packages.
+The Ken Pomeroy data can be found at http://kenpom.com/cbbga22.txt
+Conference data was provided by https://www.kaggle.com/c/mens-march-mania-2022/data
 }
