@@ -1,17 +1,27 @@
-#' Creates a ggplot of Team and Opponent scores over time
+#' Time Series Graph
 #'
+#' For a given basketball team, creates a line graph with date on the x-axis and
+#' score on the y-axis. Has two lines for team score and opponent score. Includes
+#' an option to use regular lines or a smoother. 
 #'
-#'
-#'
-#' @param data kenpom data set
-#' @param team character string of team name
+#' @param data Tibble of Ken Pomeroy data
+#' @param team Character of desired string
+#' @param smooth Binary Use smoother. 
 #' 
-#' @return ggplot2
+#' @return A ggplot geom_line or geom_smooth
 #'
 #' @export
+#' 
+#' @examples 
+#' 
+#' ## Regular line plot for Duke
+#' time_series_graph(get_cbb_data(), "Duke")
+#' 
+#' ## Smoothed line plot for Duke
+#' time_series_graph(get_cbb_data(), "Duke", TRUE)
 #'
 
-time_series_graph <- function(data, team, smooth = 0){
+time_series_graph <- function(data, team, smooth){
   
   if(smooth == 0){
     team_filter(data,team) %>%
@@ -34,6 +44,7 @@ time_series_graph <- function(data, team, smooth = 0){
                                     "Opponent Score" = "springgreen3")) +
       labs(x = "Game Date", y = "Score", title = paste(team,"Scores Over Time"))
   }
+  
 }
 
 

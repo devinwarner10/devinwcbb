@@ -1,15 +1,16 @@
-#' Creates a list of teams
+#' Create a List of Teams
 #'
-#' Takes the basketball data and creates a list of distinct teams featured
-#' in the dataset. 
+#' Takes the Ken Pomeroy basketball data and creates a list of distinct teams featured
+#' in the data set. Used for the Team drop down selection in the Shiny app. 
 #'
-#' @param data A tibble of the Ken Pom data
+#' @param data Tibble of the Ken Pomeroy data.
 #'
-#' @return tibble  
+#' @return A tibble with one column of distinct teams 
 #'
 #' @export
 #' 
 
 team_list <- function(data){
-  tibble(team = append(data$home, data$vis)) %>% distinct()
+  tibble(team = append(data$home, data$vis)) %>% 
+    distinct()
 }

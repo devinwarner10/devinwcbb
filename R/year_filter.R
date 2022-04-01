@@ -12,6 +12,9 @@
 #'
 #' @examples
 #' year_filter(get_cbb_data(), 2021)
+#' 
+
+
 year_filter <- function(data, year = 2022) {
   data %>% filter(year(date) == year)
 }

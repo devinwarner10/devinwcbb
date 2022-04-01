@@ -2,19 +2,36 @@
 % Please edit documentation in R/get_cbb_data.R
 \name{get_cbb_data}
 \alias{get_cbb_data}
-\title{Imports and cleans the KenPom college basketball data set}
+\title{Imports Ken Pomeroy Data}
 \usage{
-get_cbb_data(conf = 0)
+get_cbb_data(conf = FALSE)
+}
+\arguments{
+\item{conf}{Boolean Filter for conference games only}
 }
 \value{
-tibble
+A tibble. Each row represents a game in the 2021-2022 season.
 }
 \description{
-Reads in the file using a fixed width method. Names the columns and sets
-column types. Adds the column 'location' based on the home team. Adds the
-column 'score-diff' found by 'score_1' - 'score_2'. Removes columns 6 and 7.
-Changes the 'date' column from a string to a date. Returns the cleaned dataset.
+Reads the data from the URL listed below. Using dylr methods puts the data
+into tidy format. Includes an option to filter the data for conference games
+only.
+}
+\details{
 Requires the tidyverse and lubridate packages.
+
 The Ken Pomeroy data can be found at http://kenpom.com/cbbga22.txt
+
 Conference data was provided by https://www.kaggle.com/c/mens-march-mania-2022/data
+
+Full conference names were edited to match the format found in the Ken Pomeroy data.
+}
+\examples{
+
+## Get full data set
+get_cbb_data()
+
+## Get conference data
+get_cbb_data(1)
+
 }

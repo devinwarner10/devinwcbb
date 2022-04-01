@@ -2,10 +2,14 @@
 % Please edit documentation in R/run_cbb_shiny.R
 \name{run_cbb_shiny}
 \alias{run_cbb_shiny}
-\title{Runs the shiny app.}
+\title{Run Basketball Shiny App}
 \usage{
 run_cbb_shiny()
 }
 \description{
-I mean, thats about as much explanation as it needs
+This is the main method to be called in the package. Runs the shiny file in
+the /inst directory of the package.
+}
+\seealso{
+"/inst/cbb_shiny"
 }

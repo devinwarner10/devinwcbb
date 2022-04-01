@@ -7,12 +7,12 @@
 violingraph(data, team)
 }
 \arguments{
-\item{data}{A tibble of the kenpom data}
+\item{data}{A tibble of the Ken Pomeroy data}
 
-\item{team}{A character string of the team name}
+\item{team}{Character of the desired team}
 }
 \value{
-ggplot2
+A ggplot geom_violin
 }
 \description{
 Works with the devinwcbb Shiny app to display a violin distribution of score

@@ -4,12 +4,15 @@
 #' differences between the selected team and their opponent. A positive score
 #' represents a win and a negative score represents a loss. 
 #'
-#' @param data A tibble of the kenpom data
-#' @param team A character string of the team name
+#' @param data A tibble of the Ken Pomeroy data
+#' @param team Character of the desired team
 #' 
-#' @return ggplot2
+#' @return A ggplot geom_violin
 #' 
 #' @export
+#' 
+#' @example 
+#' violingraph(get_cbb_data(), "Southern Utah")
 #'
 #'
 

@@ -1,14 +1,19 @@
-#' Creates a graph of the basketball data
+#' Scatter Plot of Basketball Game Scores
 #'
-#' Give a better description of what the graph is as soon as you decide the
-#' final product of what the graph will look like.
+#' For a filtered men's college basketball team builds a scatter plot where 
+#' opponent score is on the x-axis, and team score is on the y-axis. A y = x line
+#' is also shown to show which games are close or not
 #'
-#' @param data tibble
-#' @param team character
+#' @param data A tibble of the Ken Pomeroy basketball data
+#' @param team Character value of the desired team. 
 #'
-#' @return ggplot2
+#' @return A geom_point plot. 
 #'
 #' @export
+#' 
+#' @example
+#' 
+#' bbgraph(get_cbb_data(), "Duke")
 #'
 
 bbgraph <- function(data, team = NULL) {

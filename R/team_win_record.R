@@ -7,7 +7,7 @@
 #'
 #' @param data A tibble, preferable the kenpom data
 #' @param team A string, the team to filter for
-#' @param text Binary, 0 for vector, 1 for string
+#' @param text Boolean Output as text rather than a vector
 #'
 #' @return numeric vector or character string
 #'
@@ -18,16 +18,16 @@
 #' team_win_record(get_cbb_data(), "Southern Utah", 1)
 #' 
 
-team_win_record <- function(data, team, text = 0) {
+team_win_record <- function(data, team, text = FALSE) {
   x <- team_filter(data,team)
   tot_games <- x %>%
     summarise(n = n()) %>%
     pull()
   wins <- sum(ifelse(x$scoredifference > 0, 1, 0))
   
-  if (text == 1) {
+  if (text) {
     cat(team, "has won", wins, "of their", tot_games, "games, for a win percentage of", round(wins / tot_games * 100, digits = 2), "%. \n")
-  } else {
+  }else {
     c(wins, tot_games, round(wins / tot_games * 100, 2))
   }
 }

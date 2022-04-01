@@ -20,4 +20,5 @@ only works for year values of 2021 and 2022.
 }
 \examples{
 year_filter(get_cbb_data(), 2021)
+
 }

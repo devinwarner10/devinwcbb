@@ -1,8 +1,17 @@
-#' Runs the shiny app.
+#' Run Basketball Shiny App
 #'
-#' I mean, thats about as much explanation as it needs
+#' This is the main method to be called in the package. Runs the shiny file in
+#' the /inst directory of the package. 
 #'
 #' @export
+#' 
+#' @seealso 
+#' "/inst/cbb_shiny"
+#' 
+#' @example 
+#' 
+#' ## Run the Shiny App
+#' run_cbb_shiny()
 #'
 
 run_cbb_shiny <- function() {

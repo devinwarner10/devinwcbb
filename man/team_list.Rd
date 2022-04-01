@@ -2,17 +2,17 @@
 % Please edit documentation in R/team_list.R
 \name{team_list}
 \alias{team_list}
-\title{Creates a list of teams}
+\title{Create a List of Teams}
 \usage{
 team_list(data)
 }
 \arguments{
-\item{data}{A tibble of the Ken Pom data}
+\item{data}{Tibble of the Ken Pomeroy data.}
 }
 \value{
-tibble
+A tibble with one column of distinct teams
 }
 \description{
-Takes the basketball data and creates a list of distinct teams featured
-in the dataset.
+Takes the Ken Pomeroy basketball data and creates a list of distinct teams featured
+in the data set. Used for the Team drop down selection in the Shiny app.
 }

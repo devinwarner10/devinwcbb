@@ -1,19 +1,33 @@
-#' Imports and cleans the KenPom college basketball data set
+#' Imports Ken Pomeroy Data
 #'
-#' Reads in the file using a fixed width method. Names the columns and sets
-#' column types. Adds the column 'location' based on the home team. Adds the
-#' column 'score-diff' found by 'score_1' - 'score_2'. Removes columns 6 and 7.
-#' Changes the 'date' column from a string to a date. Returns the cleaned dataset.
+#' Reads the data from the URL listed below. Using dylr methods puts the data 
+#' into tidy format. Includes an option to filter the data for conference games
+#' only. 
+#' 
 #' Requires the tidyverse and lubridate packages. 
+#' 
 #' The Ken Pomeroy data can be found at http://kenpom.com/cbbga22.txt
+#' 
 #' Conference data was provided by https://www.kaggle.com/c/mens-march-mania-2022/data
+#' 
+#' Full conference names were edited to match the format found in the Ken Pomeroy data. 
+#' 
+#' @param conf Boolean Filter for conference games only
 #'
-#' @return tibble
+#' @return A tibble. Each row represents a game in the 2021-2022 season. 
 #'
 #' @export
+#' 
+#' @examples 
+#' 
+#' ## Get full data set
+#' get_cbb_data()
+#' 
+#' ## Get conference data
+#' get_cbb_data(1)
 #'
 
-get_cbb_data <- function(conf = 0) {
+get_cbb_data <- function(conf = FALSE) {
   
   data <- read_fwf(file = url("http://kenpom.com/cbbga22.txt"), col_positions = fwf_widths(c(11, 23, 4, 23, 4, 3, 22), c("date", "home", "score1", "vis", "score2", "ufo1", "ufo2")), col_types = "ccicicc")
 
@@ -46,11 +60,11 @@ get_cbb_data <- function(conf = 0) {
                                            "location", "score_diff", "home_conference",
                                            "vis_conference"))
   
-  if(conf == 1){
+  if(conf){
     data %>% 
       filter(home_conference == vis_conference)  %>%
       select(c("date", "home", "score1","vis", "score2",
                "location", "score_diff", "home_conference")) %>%
       rename(conference = home_conference)
-  }else if(conf == 0){data}
+  }else if(!conf){data}
 }

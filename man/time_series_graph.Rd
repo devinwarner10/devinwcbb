@@ -2,18 +2,31 @@
 % Please edit documentation in R/time_series_graph.R
 \name{time_series_graph}
 \alias{time_series_graph}
-\title{Creates a ggplot of Team and Opponent scores over time}
+\title{Time Series Graph}
 \usage{
-time_series_graph(data, team, smooth = 0)
+time_series_graph(data, team, smooth = FALSE)
 }
 \arguments{
-\item{data}{kenpom data set}
+\item{data}{Tibble of Ken Pomeroy data}
 
-\item{team}{character string of team name}
+\item{team}{Character of desired string}
+
+\item{smooth}{Boolean Use smoother.}
 }
 \value{
-ggplot2
+A ggplot geom_line or geom_smooth
 }
 \description{
-Creates a ggplot of Team and Opponent scores over time
+For a given basketball team, creates a line graph with date on the x-axis and
+score on the y-axis. Has two lines for team score and opponent score. Includes
+an option to use regular lines or a smoother.
+}
+\examples{
+
+## Regular line plot for Duke
+time_series_graph(get_cbb_data(), "Duke")
+
+## Smoothed line plot for Duke
+time_series_graph(get_cbb_data(), "Duke", TRUE)
+
 }

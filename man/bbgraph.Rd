@@ -2,19 +2,20 @@
 % Please edit documentation in R/bbgraph.R
 \name{bbgraph}
 \alias{bbgraph}
-\title{Creates a graph of the basketball data}
+\title{Scatter Plot of Basketball Game Scores}
 \usage{
 bbgraph(data, team = NULL)
 }
 \arguments{
-\item{data}{tibble}
+\item{data}{A tibble of the Ken Pomeroy basketball data}
 
-\item{team}{character}
+\item{team}{Character value of the desired team.}
 }
 \value{
-ggplot2
+A geom_point plot.
 }
 \description{
-Give a better description of what the graph is as soon as you decide the
-final product of what the graph will look like.
+For a filtered men's college basketball team builds a scatter plot where
+opponent score is on the x-axis, and team score is on the y-axis. A y = x line
+is also shown to show which games are close or not
 }

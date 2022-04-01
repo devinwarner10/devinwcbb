@@ -67,7 +67,7 @@ server <- function(input, output, session) {
   conf <- reactive({input$conf})
   
   output$text1 <- renderPrint({
-    team_win_record(data,team(),1)
+    team_win_record(data,team(),TRUE)
   })
   
   output$text2 <- renderPrint({
@@ -109,8 +109,8 @@ server <- function(input, output, session) {
       filter(conference == conf()) %>%
       all_teams_records() %>%
       select(-weighted_wins),
-    options = list(pageLength = 15,
-                   dom = 'tp'),
+    options = list(pageLength = 20,
+                   dom = 't'),
     colnames = c("Rank","Team","Conference Wins","Conference Games", "Conference Win Percentage"),
     caption = "Rankings are based off a weighted win percentage: (# wins)^2 / (total games)"
   )

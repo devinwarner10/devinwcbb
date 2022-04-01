@@ -7,12 +7,13 @@
 conf_list(conf_data)
 }
 \arguments{
-\item{data}{A tibble of the Ken Pom data}
+\item{data}{A tibble of the Ken Pomeroy data filtered for conference games}
 }
 \value{
-tibble
+A tibble. Has one column of distinct conference names.
 }
 \description{
-Takes the basketball data and creates a list of distinct conferences featured
-in the dataset.
+Takes the Ken Pomeroy basketball data and creates a list of distinct
+conferences featured in the data set. Used to create the conference selection
+drop down in the Shiny app.
 }

@@ -1,12 +1,11 @@
-#' Filters the kenpom data by given team.
+#' Filter Ken Pomeroy data
 #'
-#' Asked in the homework as part of Question 3d. Uses the filter function
-#' to filter for a given team whether they were the home or visiting team.
+#' Takes the Ken Pomeroy data and filters for all games that have a given team.
 #'
-#' @param data A tibble, preferably the kenpom data
-#' @param team A string, the team to filter for
+#' @param data Tibble of the Ken Pomeroy data
+#' @param team Character of the desired string
 #'
-#' @return tibble
+#' @return A tibble subset of the Ken Pomeroy data
 #'
 #' @export
 #'
