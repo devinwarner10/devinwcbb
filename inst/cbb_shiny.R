@@ -66,11 +66,13 @@ ui <- fluidPage(
           fluidRow(
             wellPanel(
               textOutput("text3"),
-              # sliderInput('lambda', 'Lambda (\u03BB)', min = 0.00000001, max = 1, value = best_lambda)
+              sliderInput('lambda', 'Log(\u03BB)', min = -7, 
+                          max = -1, value = log(best_lambda), step = 0.05)
             )
           ),
           fluidRow(
-            plotOutput('plot4')
+            column(6,plotOutput('plot4')),
+            column(6,plotOutput('plot5'))
           ),
           
           fluidRow(
@@ -86,9 +88,8 @@ server <- function(input, output, session) {
   team <- reactive({input$team})
   smooth <- reactive({input$plotType})
   conf <- reactive({input$conf})
-  lam <- reactive({input$lambda})
-  # lasso.cv <- reactive({cbb_lasso(team_records, lam())[[1]]})
-  # lasso.text <- reactive({cbb_lasso(team_records, lam())[[2]]})
+  loglam <- reactive({input$lambda})
+  
   
   output$text1 <- renderPrint({
     team_win_record(data,team(),TRUE)
@@ -99,7 +100,7 @@ server <- function(input, output, session) {
   })
   
   output$text3 <- renderPrint({
-    bb_lasso[[2]]
+    cbb_lasso(team_records, exp(loglam()))[[2]]
   })
     
   output$plot1 <- renderPlot({
@@ -115,7 +116,14 @@ server <- function(input, output, session) {
   })
   
   output$plot4 <- renderPlot({
-    plot(lasso.cv)
+    plot(lasso.cv, main = "Training MSE Plot") + 
+      abline(v = loglam(), col = "steelblue")
+  })
+  
+  output$plot5 <- renderPlot({
+    plot(log(lasso.cv$lambda),bb_lasso[[3]], main = "R^2 Plot",
+         xlab = "Log(\u03BB)", ylab = "R^2") + 
+      abline(v = loglam(), col = "steelblue")
   })
   
   output$table1 <- renderDT(
@@ -148,8 +156,9 @@ server <- function(input, output, session) {
   )
   
   output$table4 <- renderDT(
-    tibble("Variable" = names(predict(lasso.cv, s = best_lambda, type = "coefficient")[,1]),
-           "Coefficient" = round(predict(lasso.cv, s = best_lambda, type = "coefficient")[,1],6)),
+    tibble("Variable" = names(predict(lasso.cv, s = exp(loglam()), type = "coefficient")[,1]),
+           "Coefficient" = round(predict(lasso.cv, s = exp(loglam()), type = "coefficient")[,1],6)) %>%
+      filter(Coefficient != 0),
     options = list(dom = 't')
   )
 }

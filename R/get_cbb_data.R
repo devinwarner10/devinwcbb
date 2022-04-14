@@ -29,7 +29,9 @@
 
 get_cbb_data <- function(conf = FALSE) {
   
-  data <- read_fwf(file = url("http://kenpom.com/cbbga22.txt"), col_positions = fwf_widths(c(11, 23, 4, 23, 4, 3, 22), c("date", "home", "score1", "vis", "score2", "ufo1", "ufo2")), col_types = "ccicicc")
+  data <- read_fwf(file = url("http://kenpom.com/cbbga22.txt"), 
+                   col_positions = fwf_widths(c(11, 23, 4, 23, 4, 3, 22), 
+                                              c("date", "vis", "score2", "home", "score1", "ufo1", "ufo2")), col_types = "ccicicc")
 
   data <- data %>%
     mutate(location = home) %>%

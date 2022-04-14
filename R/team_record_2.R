@@ -32,6 +32,10 @@ team_record_2 <- function(data){
     teams_tibble[i, "total_games"] <- record[2]
   }
   
-  teams_tibble %>% arrange(team)
+  tourn <- read_csv("data/tournament.csv")
+  table <- merge(x = teams_tibble, y = tourn, by.x = "team", by.y = "ID", all.x = TRUE)
+  table$tournament <- ifelse(is.na(table$tournament), 0, table$tournament)
+  
+  table %>% arrange(team)
   
 }
