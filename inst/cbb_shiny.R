@@ -1,5 +1,10 @@
 data <- get_cbb_data(0)
 conf_data <- get_cbb_data(1)
+team_records <- read_csv("data/team_records.csv")
+bb_lasso <- cbb_lasso(team_records)
+lasso.cv <- bb_lasso[[1]]
+best_lambda <- lasso.cv$lambda.min
+
 
 ui <- fluidPage(
   
@@ -24,13 +29,13 @@ ui <- fluidPage(
               tabPanel("Violin Graph",
                        plotOutput("plot2")),
               tabPanel("Time Series",
-                       wellPanel(
-                         radioButtons("plotType", "Plot Type",
-                                      c("Line" = 0, "Smooth" = 1))
-                         ),
+                      wellPanel(
+                        radioButtons("plotType", "Plot Type",
+                                    c("Line" = 0, "Smooth" = 1))
+                        ),
                        plotOutput("plot3")),
               tabPanel("Table",
-                       DTOutput("table1")),
+                       DTOutput("table1"))
           ),
         
       ),
@@ -55,6 +60,22 @@ ui <- fluidPage(
           ),
           
           DTOutput("table2")
+      ),
+      
+      tabPanel("LASSO",
+          fluidRow(
+            wellPanel(
+              textOutput("text3"),
+              # sliderInput('lambda', 'Lambda (\u03BB)', min = 0.00000001, max = 1, value = best_lambda)
+            )
+          ),
+          fluidRow(
+            plotOutput('plot4')
+          ),
+          
+          fluidRow(
+            DTOutput("table4")
+          )     
       )
     )
 
@@ -65,6 +86,9 @@ server <- function(input, output, session) {
   team <- reactive({input$team})
   smooth <- reactive({input$plotType})
   conf <- reactive({input$conf})
+  lam <- reactive({input$lambda})
+  # lasso.cv <- reactive({cbb_lasso(team_records, lam())[[1]]})
+  # lasso.text <- reactive({cbb_lasso(team_records, lam())[[2]]})
   
   output$text1 <- renderPrint({
     team_win_record(data,team(),TRUE)
@@ -72,6 +96,10 @@ server <- function(input, output, session) {
   
   output$text2 <- renderPrint({
     "This page takes a minute to load. Thank you for your patience."
+  })
+  
+  output$text3 <- renderPrint({
+    bb_lasso[[2]]
   })
     
   output$plot1 <- renderPlot({
@@ -84,6 +112,10 @@ server <- function(input, output, session) {
   
   output$plot3 <- renderPlot({
     time_series_graph(data, team(), smooth())
+  })
+  
+  output$plot4 <- renderPlot({
+    plot(lasso.cv)
   })
   
   output$table1 <- renderDT(
@@ -114,8 +146,12 @@ server <- function(input, output, session) {
     colnames = c("Rank","Team","Conference Wins","Conference Games", "Conference Win Percentage"),
     caption = "Rankings are based off a weighted win percentage: (# wins)^2 / (total games)"
   )
+  
+  output$table4 <- renderDT(
+    tibble("Variable" = names(predict(lasso.cv, s = best_lambda, type = "coefficient")[,1]),
+           "Coefficient" = round(predict(lasso.cv, s = best_lambda, type = "coefficient")[,1],6)),
+    options = list(dom = 't')
+  )
 }
 
 shinyApp(ui = ui, server = server)
-
-

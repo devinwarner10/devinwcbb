@@ -4,14 +4,14 @@
 \alias{time_series_graph}
 \title{Time Series Graph}
 \usage{
-time_series_graph(data, team, smooth = FALSE)
+time_series_graph(data, team, smooth)
 }
 \arguments{
 \item{data}{Tibble of Ken Pomeroy data}
 
 \item{team}{Character of desired string}
 
-\item{smooth}{Boolean Use smoother.}
+\item{smooth}{Binary Use smoother.}
 }
 \value{
 A ggplot geom_line or geom_smooth

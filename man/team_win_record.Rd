@@ -4,14 +4,14 @@
 \alias{team_win_record}
 \title{Returns as a vector or string the win record of a given team.}
 \usage{
-team_win_record(data, team, text = 0)
+team_win_record(data, team, text = FALSE)
 }
 \arguments{
 \item{data}{A tibble, preferable the kenpom data}
 
 \item{team}{A string, the team to filter for}
 
-\item{text}{Binary, 0 for vector, 1 for string}
+\item{text}{Boolean Output as text rather than a vector}
 }
 \value{
 numeric vector or character string

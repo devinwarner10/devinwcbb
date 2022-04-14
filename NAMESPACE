@@ -2,11 +2,13 @@
 
 export(all_teams_records)
 export(bbgraph)
+export(cbb_lasso)
 export(conf_list)
 export(get_cbb_data)
 export(run_cbb_shiny)
 export(team_filter)
 export(team_list)
+export(team_record_2)
 export(team_win_record)
 export(time_series_graph)
 export(violingraph)
