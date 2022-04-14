@@ -81,6 +81,8 @@ ui <- fluidPage(
       ),
       
       tabPanel("Dimension Reduction",
+          navbarPage("Method",
+            tabPanel("Principle Component",
                sidebarPanel(
                  selectInput('xcol', 'X Variable', names(pca_bball(team_records)[,-c(1,2,3)])),
                  selectInput('ycol', 'Y Variable', names(pca_bball(team_records)[,-c(1,2,3)]),
@@ -91,9 +93,15 @@ ui <- fluidPage(
                  plotOutput('plot6')
                ),
 
-               # fluidRow(
-               #   DTOutput('table5')
-               # )
+               fluidRow(
+                 DTOutput('table5')
+               ),
+               fluidRow(
+                 DTOutput('table6')
+               )
+            ),
+            tabPanel("UMAP")
+          )
 
       )
     )
@@ -184,10 +192,15 @@ server <- function(input, output, session) {
     options = list(dom = 't')
   )
   
-  # output$table5 <- renderDT(
-  #   pca_bball(team_records,0),
-  #   options = list(dom = '')
-  # )
+  output$table5 <- renderDT(
+    pca_bball(team_records,0),
+    options = list(dom = '')
+  )
+  
+  output$table6 <- renderDT(
+    pca_bball(team_records,-1),
+    options = list(dom = '')
+  )
 
   }
 
