@@ -7,5 +7,6 @@
 team_record_2(data)
 }
 \description{
-Creates a tibble of Team Stats
+This code does not run when the Shiny App is run. It takes too long. The
+output of this function is saved in data/team_records.csv in the package.
 }

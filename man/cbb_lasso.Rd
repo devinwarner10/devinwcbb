@@ -4,7 +4,7 @@
 \alias{cbb_lasso}
 \title{Runs a LASSO regression on Ken Pomeroy}
 \usage{
-cbb_lasso(data_in)
+cbb_lasso(data, lambda = NA)
 }
 \description{
 Runs a LASSO regression on Ken Pomeroy

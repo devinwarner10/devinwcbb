@@ -66,7 +66,7 @@ ui <- fluidPage(
           fluidRow(
             wellPanel(
               textOutput("text3"),
-              sliderInput('lambda', 'Log(\u03BB)', min = -7, 
+              sliderInput('lambda', 'Log(\u03BB)', min = round(log(best_lambda)-1,2), 
                           max = -1, value = log(best_lambda), step = 0.05)
             )
           ),
@@ -78,6 +78,23 @@ ui <- fluidPage(
           fluidRow(
             DTOutput("table4")
           )     
+      ),
+      
+      tabPanel("Dimension Reduction",
+               sidebarPanel(
+                 selectInput('xcol', 'X Variable', names(pca_bball(team_records)[,-c(1,2,3)])),
+                 selectInput('ycol', 'Y Variable', names(pca_bball(team_records)[,-c(1,2,3)]),
+                             selected = names(pca_bball(team_records)[,-c(1,2,3)])[[2]])
+               ),
+
+               mainPanel(
+                 plotOutput('plot6')
+               ),
+
+               # fluidRow(
+               #   DTOutput('table5')
+               # )
+
       )
     )
 
@@ -89,6 +106,7 @@ server <- function(input, output, session) {
   smooth <- reactive({input$plotType})
   conf <- reactive({input$conf})
   loglam <- reactive({input$lambda})
+  
   
   
   output$text1 <- renderPrint({
@@ -126,6 +144,10 @@ server <- function(input, output, session) {
       abline(v = loglam(), col = "steelblue")
   })
   
+  output$plot6 <- renderPlot({
+    plot_pca(team_records, input$xcol, input$ycol)
+  })
+  
   output$table1 <- renderDT(
       team_filter(data, team()),
       options = list(pageLength = 10, 
@@ -161,6 +183,12 @@ server <- function(input, output, session) {
       filter(Coefficient != 0),
     options = list(dom = 't')
   )
-}
+  
+  # output$table5 <- renderDT(
+  #   pca_bball(team_records,0),
+  #   options = list(dom = '')
+  # )
+
+  }
 
 shinyApp(ui = ui, server = server)
