@@ -21,6 +21,7 @@ run_cbb_shiny <- function() {
   library(shiny)
   library(shinythemes)
   library(glmnet)
+  library(umap)
   appDir <- system.file("cbb_shiny.R", package = "devinwcbb")
   if (appDir == "") {
     stop("Could not find myapp. Try re-installing `devinwcbb`.", call. = FALSE)

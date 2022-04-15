@@ -8,7 +8,8 @@
 #' @export
 #'
 
-pca_bball <- function(data, val = 1){
+pca_bball <- function(data, val = 1, d1 = 0){
+  if(d1 == 1){data <- data %>% filter(conference != "NA")}
   pr <- prcomp(data[,-c(1,2,16)])
   if(val == 1){
     x <- pr$x

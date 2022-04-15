@@ -4,7 +4,7 @@ team_records <- read_csv("data/team_records.csv")
 bb_lasso <- cbb_lasso(team_records)
 lasso.cv <- bb_lasso[[1]]
 best_lambda <- lasso.cv$lambda.min
-
+umap_bball <- umap(team_records[,-c(1,2,16)])
 
 ui <- fluidPage(
   
@@ -86,7 +86,10 @@ ui <- fluidPage(
                sidebarPanel(
                  selectInput('xcol', 'X Variable', names(pca_bball(team_records)[,-c(1,2,3)])),
                  selectInput('ycol', 'Y Variable', names(pca_bball(team_records)[,-c(1,2,3)]),
-                             selected = names(pca_bball(team_records)[,-c(1,2,3)])[[2]])
+                             selected = names(pca_bball(team_records)[,-c(1,2,3)])[[2]]),
+                 radioButtons("d1", "Filter for D1 Teams",
+                              c("No" = 0, "Yes" = 1))
+
                ),
 
                mainPanel(
@@ -100,7 +103,9 @@ ui <- fluidPage(
                  DTOutput('table6')
                )
             ),
-            tabPanel("UMAP")
+            tabPanel("UMAP",
+                plotOutput('plot7')
+            )
           )
 
       )
@@ -114,7 +119,7 @@ server <- function(input, output, session) {
   smooth <- reactive({input$plotType})
   conf <- reactive({input$conf})
   loglam <- reactive({input$lambda})
-  
+  d1_choice <- reactive({input$d1})
   
   
   output$text1 <- renderPrint({
@@ -153,7 +158,16 @@ server <- function(input, output, session) {
   })
   
   output$plot6 <- renderPlot({
-    plot_pca(team_records, input$xcol, input$ycol)
+    plot_pca(team_records, input$xcol, input$ycol, d1_choice())
+  })
+  
+  output$plot7 <- renderPlot({
+    data.frame(umap_bball$layout, 
+               Conference=team_records$conference, 
+               Tournament=as.factor(team_records$tournament)) %>%
+      ggplot(aes(X1,X2, fill = Conference, shape = Tournament))+
+      geom_point(cex=3, pch=21) +
+      coord_fixed(ratio = 1)
   })
   
   output$table1 <- renderDT(
@@ -193,12 +207,12 @@ server <- function(input, output, session) {
   )
   
   output$table5 <- renderDT(
-    pca_bball(team_records,0),
+    pca_bball(team_records,0,d1_choice()),
     options = list(dom = '')
   )
   
   output$table6 <- renderDT(
-    pca_bball(team_records,-1),
+    pca_bball(team_records,-1,d1_choice()),
     options = list(dom = '')
   )
 
